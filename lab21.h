@@ -25,7 +25,7 @@ class Unit{
 		bool isDead();	
 };
 
-void Unit::create(string t){ 
+void Unit::create(string t){ 					
 	if(t == "Hero"){
 		type = "Hero";
 		cout << "Please input your name: ";
@@ -63,6 +63,37 @@ void Unit::newTurn(){
 	guard_on = false;
 }
 
+bool Unit::isDead(){
+	if(hp <= 0) return true;
+	else return false;
+}
+
+void Unit::guard(){
+	guard_on = true;
+}
+
+int Unit::beAttacked(int oppatk){
+	int dmg;
+	if(oppatk > def){
+		dmg = oppatk-def;	
+		if(guard_on) dmg = dmg/3;
+	}	
+	hp -= dmg;
+	if(hp <= 0){hp = 0;}
+	
+	return dmg;	
+}
+
+int Unit::attack(Unit &opp){
+	return opp.beAttacked(atk);
+}
+
+int Unit::heal(){
+	int h = rand()%21 + 10;
+	if(hp + h > hpmax) h = hpmax - hp;
+	hp = hp + h;
+	return h;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////
